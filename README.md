@@ -1,0 +1,3 @@
+## Horizon - Yet another text reader and word collection tool for foreign languages
+
+TODO write details...
