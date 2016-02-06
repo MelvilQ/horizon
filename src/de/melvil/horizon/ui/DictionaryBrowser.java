@@ -12,10 +12,11 @@ public class DictionaryBrowser extends JFXPanel {
 
 	private WebEngine webEngine;
 	private WebView webView;
-	
-	private String dictionaryURL;
 
-	public DictionaryBrowser() {
+	private MainWindow parent;
+
+	public DictionaryBrowser(MainWindow mw) {
+		parent = mw;
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
@@ -26,23 +27,20 @@ public class DictionaryBrowser extends JFXPanel {
 				webView.setZoom(0.85);
 				webEngine = webView.getEngine();
 				group.getChildren().add(webView);
-				webEngine.load("http://www.google.com");
+				webEngine.load("https://en.m.wiktionary.org/");
 			}
 		});
-	}
-	
-	public void setDictionaryURL(String url){
-		if(url == null){
-			url = "https://www.google.com/#q=$$$";
-		}
-		dictionaryURL = url;
 	}
 
 	public void lookup(String word) {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				String url = dictionaryURL.replace("$$$", word);
+				String dictURL = parent.getWordManager().getSetting("dict_url");
+				if (dictURL == null) {
+					dictURL = "https://en.m.wiktionary.org/wiki/$$$";
+				}
+				String url = dictURL.replace("$$$", word);
 				webEngine.load(url);
 			}
 		});

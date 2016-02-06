@@ -34,7 +34,7 @@ public class MainWindow extends JFrame {
 	private HorizonReader reader = new HorizonReader(this);
 	private Box rightBox = new Box(BoxLayout.Y_AXIS);
 	private WordDetailEditor editor = new WordDetailEditor(this);
-	private DictionaryBrowser dictionary = new DictionaryBrowser();
+	private DictionaryBrowser dictionary = new DictionaryBrowser(this);
 
 	private WordManager wordManager;
 
@@ -60,6 +60,12 @@ public class MainWindow extends JFrame {
 		menu.add(statisticsItem);
 		JMenuItem languagePreferencesItem = new JMenuItem(
 				"Language Preferences");
+		languagePreferencesItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LanguagePreferencesWindow(wordManager);
+			}
+		});
 		menu.add(languagePreferencesItem);
 		menu.addSeparator();
 		JMenuItem aboutItem = new JMenuItem("About Horizon");
@@ -105,7 +111,6 @@ public class MainWindow extends JFrame {
 		wordManager = new WordManager(lang);
 		reader.loadText("");
 		editor.display("");
-		dictionary.setDictionaryURL(wordManager.getSetting("dict_url"));
 	}
 
 	public void notifyLoadText(File textFile) {

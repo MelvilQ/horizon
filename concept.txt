@@ -1,5 +1,4 @@
 * TODO:
-- Preferences für Sprachen (Wörterbuch-URL, etc.)
 - aktuelle Sprache, aktueller Text (und evtl wie weit gescrollt ist) bei Programmstart laden
 - ToolTips für WordLabels updaten, wenn man Bedeutung editiert hat
 - beim Hinzufügen von Texten auch wirklich Genre, Folder und neuen Text markieren in den ListViews!

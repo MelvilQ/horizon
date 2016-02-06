@@ -27,6 +27,7 @@ public class WordManager {
 
 	public void setSetting(String key, String value) {
 		settings.put(key, value);
+		db.commit();
 	}
 
 	public int getStrength(String word) {
