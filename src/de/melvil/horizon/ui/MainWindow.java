@@ -100,7 +100,7 @@ public class MainWindow extends JFrame {
 		textFont = new Font("Georgia", Font.PLAIN, 17);
 		editFont = new Font("Georgia", Font.PLAIN, 12);
 
-		notifyLanguageChange("en");
+		notifyLanguageChange("fr");
 
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -76,6 +76,46 @@ public class TextSelector extends Box {
 		add(genrePane);
 		add(folderPane);
 		add(chapterPane);
+		
+		newTextButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				NewTextDialog dialog = new NewTextDialog(parent, genre, folder);
+				if (dialog.wasCanceled())
+					return;
+				// create folders if they don't exist
+				File dir = new File("data/" + lang + "/" + dialog.getGenre()
+						+ "/" + dialog.getFolder());
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+				// parse text
+				String parsedText = TextParser.parseText(dialog.getText());
+				// save text file
+				File textFile = new File("data/" + lang + "/"
+						+ dialog.getGenre() + "/" + dialog.getFolder() + "/"
+						+ dialog.getFileName() + ".txt");
+				try {
+					FileUtils.writeStringToFile(textFile, parsedText,
+							Charset.forName("UTF-8"));
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				}
+				// update listviews
+				genre = dialog.getGenre();
+				folder = dialog.getFolder();
+				chapter = dialog.getFileName();
+				disableListeners();
+				populateModelWithDirContent(genreModel, "data/" + lang, true);
+				populateModelWithDirContent(folderModel, "data/" + lang + "/"
+						+ genre, true);
+				populateModelWithDirContent(chapterModel, "data/" + lang + "/"
+						+ genre + "/" + folder, false);
+				enableListeners();
+				// show new text
+				parent.notifyLoadText(textFile);
+			}
+		});
 		add(newTextButton);
 
 		genreList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -152,46 +192,6 @@ public class TextSelector extends Box {
 					return;
 				parent.notifyLoadText(new File("data/" + lang + "/" + genre
 						+ "/" + folder + "/" + chapter + ".txt"));
-			}
-		});
-
-		newTextButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				NewTextDialog dialog = new NewTextDialog(parent, genre, folder);
-				if (dialog.wasCanceled())
-					return;
-				// create folders if they don't exist
-				File dir = new File("data/" + lang + "/" + dialog.getGenre()
-						+ "/" + dialog.getFolder());
-				if (!dir.exists()) {
-					dir.mkdirs();
-				}
-				// parse text
-				String parsedText = TextParser.parseText(dialog.getText());
-				// save text file
-				File textFile = new File("data/" + lang + "/"
-						+ dialog.getGenre() + "/" + dialog.getFolder() + "/"
-						+ dialog.getFileName() + ".txt");
-				try {
-					FileUtils.writeStringToFile(textFile, parsedText,
-							Charset.forName("UTF-8"));
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-				// update listviews
-				genre = dialog.getGenre();
-				folder = dialog.getFolder();
-				chapter = dialog.getFileName();
-				disableListeners();
-				populateModelWithDirContent(genreModel, "data/" + lang, true);
-				populateModelWithDirContent(folderModel, "data/" + lang + "/"
-						+ genre, true);
-				populateModelWithDirContent(chapterModel, "data/" + lang + "/"
-						+ genre + "/" + folder, false);
-				enableListeners();
-				// show new text
-				parent.notifyLoadText(textFile);
 			}
 		});
 	}

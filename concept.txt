@@ -1,9 +1,12 @@
+* BUGS:
+- Anzeige-Bug: letzte Zeile vor Absatz wird oft nicht angezeigt...
+
 * TODO:
+- den Data-Folder frei wählbar machen, dann kann man ihn in die Dropbox verschieben
 - aktuelle Sprache, aktueller Text (und evtl wie weit gescrollt ist) bei Programmstart laden
 - ToolTips für WordLabels updaten, wenn man Bedeutung editiert hat
 - beim Hinzufügen von Texten auch wirklich Genre, Folder und neuen Text markieren in den ListViews!
 - EPUB Import
-- doch noch mal probieren ob man mit den Pfeiltasten und Space steuern könnte...
 - About Fenster machen
 - ReadMe file schreiben und Projekt auf GitHub stellen und dann damit angeben :D
 - Manage Words Fenster: Wörter hinzufügen und löschen, Stärke verstellen, Sortieren, Bedeutungen editieren, etc.

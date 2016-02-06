@@ -52,7 +52,7 @@ public class HorizonReader extends JScrollPane {
 	public HorizonReader(MainWindow mainWindow) {
 		parent = mainWindow;
 
-		setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		getVerticalScrollBar().setUnitIncrement(20);
 
@@ -80,6 +80,8 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("C"), "very right");
+		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "very right");
 		getActionMap().put("very right", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -89,6 +91,8 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("Y"), "very left");
+		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "very left");
 		getActionMap().put("very left", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -98,6 +102,8 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("W"), "up");
+		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0), "up");
 		getActionMap().put("up", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -114,6 +120,8 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("S"), "down");
+		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0), "down");
 		getActionMap().put("down", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -130,6 +138,8 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "enter");
+		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "enter");
 		getActionMap().put("enter", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -239,7 +249,7 @@ public class HorizonReader extends JScrollPane {
 				label.setStrength(strength);
 				if (strength >= 0 && strength < 3 && !meaning.equals(""))
 					label.setToolTipText(meaning);
-				if(strength == -1)
+				if (strength == -1)
 					remainingUnknownWords.add(label.getWord());
 			}
 		}
@@ -249,6 +259,7 @@ public class HorizonReader extends JScrollPane {
 	}
 
 	private void makeNewLine() {
+		box.add(Box.createRigidArea(new Dimension(0, 10)));
 		panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setLayout(new WrapLayout(FlowLayout.LEADING, 0, 2));
@@ -324,8 +335,8 @@ public class HorizonReader extends JScrollPane {
 			l.setStrength(strength);
 		}
 	}
-	
-	public int getNumberOfRemainingWords(){
+
+	public int getNumberOfRemainingWords() {
 		return remainingUnknownWords.size();
 	}
 }
