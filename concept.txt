@@ -1,5 +1,6 @@
 * BUGS:
-- Anzeige-Bug: letzte Zeile vor Absatz wird oft nicht angezeigt...
+- Anzeige-Bug: letzte Zeile vor Absatz wird nicht angezeigt, wenn sie nur aus einem Wort besteht
+  und der Text nicht der erste angezeigte Text seit Programmstart ist...
 
 * TODO:
 - den Data-Folder frei wählbar machen, dann kann man ihn in die Dropbox verschieben
@@ -12,6 +13,7 @@
 - Manage Words Fenster: Wörter hinzufügen und löschen, Stärke verstellen, Sortieren, Bedeutungen editieren, etc.
 
 * für später und nur vielleicht:
+- LingQ Import (z.B. mit Selenium)
 - Rechtschreibfehler, die einem erst beim Lesen auffallen, einfach korrigieren können
 - App für Android, mit der man Texte lesen und Audios hören kann 
 - Glosbe Dictionary in Bedeutungseditor integrieren

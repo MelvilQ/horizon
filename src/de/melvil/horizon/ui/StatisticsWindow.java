@@ -58,7 +58,8 @@ public class StatisticsWindow extends JFrame {
 					i + 1);
 			model.setValueAt(wordManager.getNumberOfWordsWithStrength(0), 5,
 					i + 1);
-			model.setValueAt(wordManager.getWordsScore(), 6, i + 1);
+			double score = Math.round(wordManager.getWordsScore() * 10.0) / 10.0;
+			model.setValueAt(score, 6, i + 1);
 		}
 
 		setVisible(true);

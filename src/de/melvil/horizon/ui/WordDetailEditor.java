@@ -20,6 +20,7 @@ public class WordDetailEditor extends Box {
 	private MainWindow parent;
 
 	private String currentWord;
+	private int strength;
 
 	private Box strengthBox = new Box(BoxLayout.Y_AXIS);
 	private JLabel strengthLabel = new JLabel("Word Strength: ");
@@ -109,7 +110,8 @@ public class WordDetailEditor extends Box {
 				String newMeaning = meaningsInput.getText();
 				if (!newMeaning.equals("")) {
 					parent.getWordManager().addMeaning(currentWord, newMeaning);
-					parent.notifyStrengthChange(currentWord, 0);
+					if(strength == -1)
+						parent.notifyStrengthChange(currentWord, 0);
 					meaningsModel.addElement(newMeaning);
 					meaningsInput.setText("");
 				}
@@ -121,7 +123,6 @@ public class WordDetailEditor extends Box {
 
 		add(strengthBox);
 		add(Box.createHorizontalGlue());
-		//add(Box.createRigidArea(new Dimension(100, 0)));
 		add(meaningsBox);
 	}
 
@@ -139,6 +140,7 @@ public class WordDetailEditor extends Box {
 	}
 
 	public void applyStrength(int strength) {
+		this.strength = strength;
 		if (strength == 0)
 			strengthButton0.setSelected(true);
 		else if (strength == 1)

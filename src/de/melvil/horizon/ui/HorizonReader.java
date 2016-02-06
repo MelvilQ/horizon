@@ -62,6 +62,8 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("D"), "right");
+		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
 		getActionMap().put("right", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -71,6 +73,8 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("A"), "left");
+		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
+				KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
 		getActionMap().put("left", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -80,8 +84,6 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("C"), "very right");
-		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "very right");
 		getActionMap().put("very right", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -91,8 +93,6 @@ public class HorizonReader extends JScrollPane {
 
 		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
 				KeyStroke.getKeyStroke("Y"), "very left");
-		getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).put(
-				KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "very left");
 		getActionMap().put("very left", new AbstractAction() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -185,6 +185,8 @@ public class HorizonReader extends JScrollPane {
 	}
 
 	public void loadText(String text) {
+		
+		getVerticalScrollBar().setValue(0);
 
 		selectedLabel = null;
 		labelList = new ArrayList<WordLabel>();
