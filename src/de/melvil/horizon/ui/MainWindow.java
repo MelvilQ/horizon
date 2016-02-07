@@ -136,6 +136,10 @@ public class MainWindow extends JFrame {
 		editor.applyStrength(strength);
 		adjustRemainingWordsCounter();
 	}
+	
+	public void notifyMeaningChange(String word){
+		reader.applyMeaning(word);
+	}
 
 	public void adjustRemainingWordsCounter() {
 		remainingCounter.setText("Remaining Words: "

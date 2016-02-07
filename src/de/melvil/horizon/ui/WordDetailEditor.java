@@ -104,14 +104,14 @@ public class WordDetailEditor extends Box {
 		inputBox.add(meaningsInput);
 		inputBox.add(meaningsAddButton);
 		meaningsAddButton.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String newMeaning = meaningsInput.getText();
 				if (!newMeaning.equals("")) {
 					parent.getWordManager().addMeaning(currentWord, newMeaning);
-					if(strength == -1)
+					if (strength == -1)
 						parent.notifyStrengthChange(currentWord, 0);
+					parent.notifyMeaningChange(currentWord);
 					meaningsModel.addElement(newMeaning);
 					meaningsInput.setText("");
 				}

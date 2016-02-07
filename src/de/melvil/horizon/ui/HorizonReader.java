@@ -341,4 +341,17 @@ public class HorizonReader extends JScrollPane {
 	public int getNumberOfRemainingWords() {
 		return remainingUnknownWords.size();
 	}
+	
+	public void applyMeaning(String word){
+		int strength = parent.getWordManager().getStrength(word);
+		String meaning = String.join(", ", parent.getWordManager().getMeanings(word));
+		Collection<WordLabel> labels = labelsByWord.get(word);
+		for (WordLabel label : labels) {
+			if (strength >= 0 && strength < 3 && !meaning.equals("")){
+				label.setToolTipText(meaning);
+			}
+		}
+		revalidate();
+		repaint();
+	}
 }
