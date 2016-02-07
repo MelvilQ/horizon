@@ -26,12 +26,14 @@ import de.melvil.horizon.core.TextParser;
 @SuppressWarnings("serial")
 public class TextSelector extends Box {
 
+	private String dataPath;
+
 	private String lang;
 	private String genre;
 	private String folder;
 	private String chapter;
 
-	private JComboBox<String> languageSelector;;
+	private JComboBox<String> languageSelector;
 
 	private DefaultListModel<String> genreModel = new DefaultListModel<String>();
 	private JList<String> genreList = new JList<String>(genreModel);
@@ -53,8 +55,12 @@ public class TextSelector extends Box {
 		super(BoxLayout.Y_AXIS);
 		parent = mainWindow;
 
+		dataPath = mainWindow.getSettings().getSetting("data_path");
+		if (dataPath == null)
+			dataPath = "data";
+
 		ArrayList<String> languages = new ArrayList<String>();
-		for (File langFolder : new File("data").listFiles()) {
+		for (File langFolder : new File(dataPath).listFiles()) {
 			if (langFolder.isDirectory())
 				languages.add(langFolder.getName());
 		}
@@ -76,7 +82,7 @@ public class TextSelector extends Box {
 		add(genrePane);
 		add(folderPane);
 		add(chapterPane);
-		
+
 		newTextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -84,15 +90,15 @@ public class TextSelector extends Box {
 				if (dialog.wasCanceled())
 					return;
 				// create folders if they don't exist
-				File dir = new File("data/" + lang + "/" + dialog.getGenre()
-						+ "/" + dialog.getFolder());
+				File dir = new File(dataPath + "/" + lang + "/"
+						+ dialog.getGenre() + "/" + dialog.getFolder());
 				if (!dir.exists()) {
 					dir.mkdirs();
 				}
 				// parse text
 				String parsedText = TextParser.parseText(dialog.getText());
 				// save text file
-				File textFile = new File("data/" + lang + "/"
+				File textFile = new File(dataPath + "/" + lang + "/"
 						+ dialog.getGenre() + "/" + dialog.getFolder() + "/"
 						+ dialog.getFileName() + ".txt");
 				try {
@@ -102,18 +108,11 @@ public class TextSelector extends Box {
 					ex.printStackTrace();
 				}
 				// update listviews
-				genre = dialog.getGenre();
-				folder = dialog.getFolder();
-				chapter = dialog.getFileName();
-				disableListeners();
-				populateModelWithDirContent(genreModel, "data/" + lang, true);
-				populateModelWithDirContent(folderModel, "data/" + lang + "/"
-						+ genre, true);
-				populateModelWithDirContent(chapterModel, "data/" + lang + "/"
-						+ genre + "/" + folder, false);
-				enableListeners();
+				applyListViewSelection(dialog.getGenre(), dialog.getFolder(),
+						dialog.getFileName());
 				// show new text
-				parent.notifyLoadText(textFile);
+				parent.notifyLoadText(textFile, genre + "/" + folder + "/"
+						+ chapter);
 			}
 		});
 		add(newTextButton);
@@ -162,8 +161,8 @@ public class TextSelector extends Box {
 				chapter = null;
 				if (genre == null)
 					return;
-				populateModelWithDirContent(folderModel, "data/" + lang + "/"
-						+ genre, true);
+				populateModelWithDirContent(folderModel, dataPath + "/" + lang
+						+ "/" + genre, true);
 			}
 		});
 
@@ -177,8 +176,8 @@ public class TextSelector extends Box {
 				chapter = null;
 				if (folder == null)
 					return;
-				populateModelWithDirContent(chapterModel, "data/" + lang + "/"
-						+ genre + "/" + folder, false);
+				populateModelWithDirContent(chapterModel, dataPath + "/" + lang
+						+ "/" + genre + "/" + folder, false);
 			}
 		});
 
@@ -190,8 +189,9 @@ public class TextSelector extends Box {
 				chapter = chapterList.getSelectedValue();
 				if (chapter == null)
 					return;
-				parent.notifyLoadText(new File("data/" + lang + "/" + genre
-						+ "/" + folder + "/" + chapter + ".txt"));
+				parent.notifyLoadText(new File(dataPath + "/" + lang + "/"
+						+ genre + "/" + folder + "/" + chapter + ".txt"), genre
+						+ "/" + folder + "/" + chapter);
 			}
 		});
 	}
@@ -199,6 +199,37 @@ public class TextSelector extends Box {
 	public void setLanguage(String lang) {
 		this.lang = lang;
 		languageSelector.setSelectedItem(lang);
-		populateModelWithDirContent(genreModel, "data/" + lang, true);
+		populateModelWithDirContent(genreModel, dataPath + "/" + lang, true);
+	}
+
+	public void selectLastText() {
+		String lastText = parent.getSettings().getSetting("current_text");
+		if (lastText == null)
+			return;
+		File lastTextFile = new File(dataPath + "/" + lang + "/" + lastText
+				+ ".txt");
+		if (!lastTextFile.exists())
+			return;
+		String[] genreFolderChapter = lastText.split("/");
+		applyListViewSelection(genreFolderChapter[0], genreFolderChapter[1],
+				genreFolderChapter[2]);
+		parent.notifyLoadText(lastTextFile, lastText);
+	}
+
+	private void applyListViewSelection(String genre, String folder,
+			String chapter) {
+		this.genre = genre;
+		this.folder = folder;
+		this.chapter = chapter;
+		disableListeners();
+		populateModelWithDirContent(genreModel, dataPath + "/" + lang, true);
+		genreList.setSelectedValue(genre, true);
+		populateModelWithDirContent(folderModel, dataPath + "/" + lang + "/"
+				+ genre, true);
+		folderList.setSelectedValue(folder, true);
+		populateModelWithDirContent(chapterModel, dataPath + "/" + lang + "/"
+				+ genre + "/" + folder, false);
+		chapterList.setSelectedValue(chapter, true);
+		enableListeners();
 	}
 }

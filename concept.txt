@@ -4,12 +4,12 @@
 
 * TODO:
 - den Data-Folder frei wählbar machen, dann kann man ihn in die Dropbox verschieben
-- aktuelle Sprache, aktueller Text (und evtl wie weit gescrollt ist) bei Programmstart laden
 - beim Hinzufügen von Texten auch wirklich Genre, Folder und neuen Text markieren in den ListViews!
 - EPUB Import
 - About Fenster machen
 - ReadMe file schreiben und Projekt auf GitHub stellen und dann damit angeben :D
 - Manage Words Fenster: Wörter hinzufügen und löschen, Stärke verstellen, Sortieren, Bedeutungen editieren, etc.
+- Text Selector: Mit Kontextmenü neuen Ordner/Text erstellen, Ordner/Text löschen
 
 * für später und nur vielleicht:
 - LingQ Import (z.B. mit Selenium)

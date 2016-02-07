@@ -22,10 +22,14 @@ import javax.swing.UIManager;
 
 import org.apache.commons.io.FileUtils;
 
+import de.melvil.horizon.core.HorizonSettings;
 import de.melvil.horizon.core.WordManager;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
+	
+	private HorizonSettings settings = new HorizonSettings();
+	private WordManager wordManager;
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JLabel remainingCounter = new JLabel();
@@ -35,8 +39,6 @@ public class MainWindow extends JFrame {
 	private Box rightBox = new Box(BoxLayout.Y_AXIS);
 	private WordDetailEditor editor = new WordDetailEditor(this);
 	private DictionaryBrowser dictionary = new DictionaryBrowser(this);
-
-	private WordManager wordManager;
 
 	public static Font textFont;
 	public static Font editFont;
@@ -100,7 +102,11 @@ public class MainWindow extends JFrame {
 		textFont = new Font("Georgia", Font.PLAIN, 17);
 		editFont = new Font("Georgia", Font.PLAIN, 12);
 
-		notifyLanguageChange("fr");
+		String lang = settings.getSetting("current_lang");
+		if(lang == null)
+			lang = "en";
+		notifyLanguageChange(lang);
+		selector.selectLastText();
 
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -111,13 +117,15 @@ public class MainWindow extends JFrame {
 		wordManager = new WordManager(lang);
 		reader.loadText("");
 		editor.display("");
+		settings.setSetting("current_lang", lang);
 	}
 
-	public void notifyLoadText(File textFile) {
+	public void notifyLoadText(File textFile, String path) {
 		try {
 			reader.loadText(FileUtils.readFileToString(textFile,
 					Charset.forName("UTF-8")).replace("\uFEFF", ""));
 			adjustRemainingWordsCounter();
+			settings.setSetting("current_text", path);
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(this,
 					"Sorry! There was an error loading the text.", "Error",
@@ -148,6 +156,10 @@ public class MainWindow extends JFrame {
 
 	public WordManager getWordManager() {
 		return wordManager;
+	}
+	
+	public HorizonSettings getSettings(){
+		return settings;
 	}
 
 	public static void main(String[] args) {
