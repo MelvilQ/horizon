@@ -27,12 +27,14 @@ import de.melvil.horizon.core.WordManager;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {
-	
+
 	private HorizonSettings settings = new HorizonSettings();
 	private WordManager wordManager;
 
 	private JMenuBar menuBar = new JMenuBar();
 	private JLabel remainingCounter = new JLabel();
+	private JLabel totalWordsNumber = new JLabel();
+	private JLabel totalScore = new JLabel();
 
 	private TextSelector selector = new TextSelector(this);
 	private HorizonReader reader = new HorizonReader(this);
@@ -71,9 +73,9 @@ public class MainWindow extends JFrame {
 		menu.add(languagePreferencesItem);
 		menu.addSeparator();
 		JMenuItem aboutItem = new JMenuItem("About Horizon");
-		aboutItem.addActionListener(new ActionListener(){
+		aboutItem.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e){
+			public void actionPerformed(ActionEvent e) {
 				new AboutHorizonWindow();
 			}
 		});
@@ -90,6 +92,10 @@ public class MainWindow extends JFrame {
 		menuBar.add(menu);
 		menuBar.add(Box.createHorizontalStrut(175));
 		menuBar.add(remainingCounter);
+		menuBar.add(Box.createHorizontalGlue());
+		menuBar.add(totalWordsNumber);
+		menuBar.add(Box.createHorizontalStrut(50));
+		menuBar.add(totalScore);
 		setJMenuBar(menuBar);
 
 		selector.setMinimumSize(new Dimension(200, 600));
@@ -109,7 +115,7 @@ public class MainWindow extends JFrame {
 		editFont = new Font("Georgia", Font.PLAIN, 12);
 
 		String lang = settings.getSetting("current_lang");
-		if(lang == null)
+		if (lang == null)
 			lang = "en";
 		notifyLanguageChange(lang);
 		selector.selectLastText();
@@ -124,6 +130,7 @@ public class MainWindow extends JFrame {
 		reader.loadText("");
 		editor.display("");
 		settings.setSetting("current_lang", lang);
+		adjustScores();
 	}
 
 	public void notifyLoadText(File textFile, String path) {
@@ -149,9 +156,10 @@ public class MainWindow extends JFrame {
 		reader.changeStrengthOfWord(word, strength);
 		editor.applyStrength(strength);
 		adjustRemainingWordsCounter();
+		adjustScores();
 	}
-	
-	public void notifyMeaningChange(String word){
+
+	public void notifyMeaningChange(String word) {
 		reader.applyMeaning(word);
 	}
 
@@ -160,11 +168,18 @@ public class MainWindow extends JFrame {
 				+ reader.getNumberOfRemainingWords());
 	}
 
+	public void adjustScores() {
+		totalWordsNumber.setText("Words collected: "
+				+ wordManager.getNumberOfWords());
+		totalScore.setText("Score: "
+				+ Math.round(wordManager.getWordsScore() * 10.0) / 10.0 + "  ");
+	}
+
 	public WordManager getWordManager() {
 		return wordManager;
 	}
-	
-	public HorizonSettings getSettings(){
+
+	public HorizonSettings getSettings() {
 		return settings;
 	}
 

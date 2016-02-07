@@ -4,6 +4,7 @@
 
 * TODO:
 - Allgemeine Settings Window
+- beim Importieren als Dateiname immer nächste Nummer vorschlagen, wenn Genre und Ordner ausgewählt!
 - den Data-Folder frei wählbar machen, dann kann man ihn in die Dropbox verschieben
 - Text Selector: Mit Kontextmenü neuen Ordner/Text erstellen, Ordner/Text löschen
 - Rechtschreibfehler, die einem erst beim Lesen auffallen, einfach korrigieren können (Kontextmenü von WordLabel!)
