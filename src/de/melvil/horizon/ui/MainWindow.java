@@ -71,6 +71,12 @@ public class MainWindow extends JFrame {
 		menu.add(languagePreferencesItem);
 		menu.addSeparator();
 		JMenuItem aboutItem = new JMenuItem("About Horizon");
+		aboutItem.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e){
+				new AboutHorizonWindow();
+			}
+		});
 		menu.add(aboutItem);
 		menu.addSeparator();
 		JMenuItem exitItem = new JMenuItem("Exit");
