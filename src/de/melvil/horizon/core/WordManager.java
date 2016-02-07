@@ -1,7 +1,11 @@
 package de.melvil.horizon.core;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.mapdb.DB;
 import org.mapdb.DBMaker;
 import org.mapdb.HTreeMap;
@@ -59,6 +63,21 @@ public class WordManager {
 		db.commit();
 	}
 
+	public void deleteMeaning(String word, String meaning) {
+		String meaningsStr = meanings.get(word);
+		if (meaningsStr == null)
+			return;
+		List<String> meaningsList = new LinkedList<String>(
+				Arrays.asList(meaningsStr.split("\\|")));
+		meaningsList.remove(meaning);
+		if (meaningsList.size() == 0) {
+			meanings.remove(word);
+		} else {
+			meanings.put(word, StringUtils.join(meaningsList, "|"));
+		}
+		db.commit();
+	}
+
 	public int getNumberOfWords() {
 		int number = 0;
 		for (String w : strengths.keySet()) {
@@ -96,4 +115,5 @@ public class WordManager {
 		}
 		return score;
 	}
+
 }

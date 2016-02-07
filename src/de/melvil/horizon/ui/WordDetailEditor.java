@@ -34,6 +34,7 @@ public class WordDetailEditor extends Box {
 	private Box meaningsBox = new Box(BoxLayout.Y_AXIS);
 	private JTextField meaningsInput = new JTextField(30);
 	private JButton meaningsAddButton = new JButton("Add");
+	private JButton meaningsDeleteButton = new JButton("Delete Selected");
 	private DefaultListModel<String> meaningsModel = new DefaultListModel<String>();
 	private JList<String> meaningsList = new JList<String>(meaningsModel);
 
@@ -115,6 +116,19 @@ public class WordDetailEditor extends Box {
 					meaningsModel.addElement(newMeaning);
 					meaningsInput.setText("");
 				}
+			}
+		});
+		inputBox.add(meaningsDeleteButton);
+		meaningsDeleteButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int selected = meaningsList.getSelectedIndex();
+				if (selected == -1)
+					return;
+				String meaning = meaningsModel.getElementAt(selected);
+				meaningsModel.remove(selected);
+				parent.getWordManager().deleteMeaning(currentWord, meaning);
+				parent.notifyMeaningChange(currentWord);
 			}
 		});
 		meaningsBox.add(inputBox);
