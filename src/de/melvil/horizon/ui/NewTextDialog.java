@@ -40,7 +40,7 @@ public class NewTextDialog extends JDialog {
 	private JButton okButton = new JButton("Load");
 
 	public NewTextDialog(JFrame parent, String genreDefault,
-			String folderDefault) {
+			String folderDefault, String filenameDefault) {
 		super(parent, "New Text", ModalityType.APPLICATION_MODAL);
 		getContentPane().setLayout(
 				new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -57,6 +57,7 @@ public class NewTextDialog extends JDialog {
 		genreFolderBox.add(folderInput);
 		getContentPane().add(genreFolderBox);
 
+		filenameInput.setText(filenameDefault);
 		Box filenameBox = new Box(BoxLayout.X_AXIS);
 		filenameBox.add(filenameLabel);
 		filenameBox.add(filenameInput);

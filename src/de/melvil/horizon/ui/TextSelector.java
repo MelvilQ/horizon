@@ -86,7 +86,26 @@ public class TextSelector extends Box {
 		newTextButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				NewTextDialog dialog = new NewTextDialog(parent, genre, folder);
+				// calculate default for filename
+				String defaultFilename = "";
+				File defaultFolder = new File(dataPath + "/" + lang + "/"
+						+ genre + "/" + folder + "/01.txt");
+				if (!genre.equals("") && !folder.equals("")
+						&& defaultFolder.exists()) {
+					int i = 1;
+					while (true) {
+						defaultFilename = String.format("%02d", i);
+						if(!new File(dataPath + "/" + lang + "/" + genre + "/"
+								+ folder + "/" + defaultFilename + ".txt")
+								.exists()){
+							break;
+						}
+						i += 1;
+					}
+				}
+				// show dialog
+				NewTextDialog dialog = new NewTextDialog(parent, genre, folder,
+						defaultFilename);
 				if (dialog.wasCanceled())
 					return;
 				// create folders if they don't exist
