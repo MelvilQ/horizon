@@ -13,10 +13,20 @@
 - EPUB Import
 - Allgemeine Settings Window: z.B. den Data-Folder frei wählbar machen, dann kann man ihn in die Dropbox verschieben
 
+- App für Android, mit der man Texte lesen und Audios hören kann 
+-> Synchronisierung:
+1) Wortstärke_M(w) := max(Wortstärke_PC(w), Wortstärke_MB(w))
+Das bedeutet: Wenn ein Wort auf der einen Seite nicht vorkommt, wird es hinzugefügt, und die höhere Wortstärke setzt sich durch.
+2) Bedeutungen_M(w) := Bedeutungen_PC(w)
+Bedeutungen editieren wir nur auf dem Desktop!
+3) Preferences_M(p) := Preferences_PC(p)
+Preferences auch!
+4) Dateistruktur: Dateien/Ordner, die nur auf dem PC existieren, werden aufs MB kopiert. 
+Dateien/Ordner, die nur auf dem MB existieren, werden gelöscht.
+Dateien, die auf dem PC neuer sind als auf dem MB, werden auf dem MB überschrieben.
+
+
 * für später und nur vielleicht:
 - LingQ Import (z.B. mit Selenium)
-- App für Android, mit der man Texte lesen und Audios hören kann 
-- Glosbe Dictionary in Bedeutungseditor integrieren
-	(evtl. auch Wortstärken ändern und Bedeutungen hinzufügen, aber dann müsste man synchronisieren!)
 - Multi-Wort-Ausdrücke
 - Wortlisten für Texte zum angucken / lernen
