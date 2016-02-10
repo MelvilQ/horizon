@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -48,6 +49,7 @@ public class TextSelector extends Box {
 	private JScrollPane chapterPane = new JScrollPane(chapterList);
 
 	private JButton newTextButton = new JButton("New Text");
+	private JButton importEpubButton = new JButton("Import EPUB");
 
 	private MainWindow parent;
 
@@ -95,9 +97,9 @@ public class TextSelector extends Box {
 					int i = 1;
 					while (true) {
 						defaultFilename = String.format("%02d", i);
-						if(!new File(dataPath + "/" + lang + "/" + genre + "/"
+						if (!new File(dataPath + "/" + lang + "/" + genre + "/"
 								+ folder + "/" + defaultFilename + ".txt")
-								.exists()){
+								.exists()) {
 							break;
 						}
 						i += 1;
@@ -134,7 +136,52 @@ public class TextSelector extends Box {
 						+ chapter);
 			}
 		});
-		add(newTextButton);
+		importEpubButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// show dialog
+				ImportEpubDialog dialog = new ImportEpubDialog(mainWindow,
+						genre);
+				if (dialog.wasCanceled())
+					return;
+				// create folders if they don't exist
+				File dir = new File(dataPath + "/" + lang + "/"
+						+ dialog.getGenre() + "/" + dialog.getFolder());
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+				// for each chapter
+				List<String> chapterTitles = dialog.getChapterTitles();
+				List<String> chapterTexts = dialog.getChapterTexts();
+				for (int i = 0; i < chapterTitles.size(); ++i) {
+					// parse text
+					String parsedText = TextParser.parseText(chapterTexts
+							.get(i));
+					// save text file
+					File textFile = new File(dataPath + "/" + lang + "/"
+							+ dialog.getGenre() + "/" + dialog.getFolder() + "/"
+							+ chapterTitles.get(i) + ".txt");
+					try {
+						FileUtils.writeStringToFile(textFile, parsedText,
+								Charset.forName("UTF-8"));
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}
+				// update listviews
+				String firstChapter = chapterTitles.get(0);
+				applyListViewSelection(dialog.getGenre(), dialog.getFolder(),
+						firstChapter);
+				// show new text
+				parent.notifyLoadText(new File(dataPath + "/" + lang + "/"
+						+ genre + "/" + folder + "/" + chapter + ".txt"), genre
+						+ "/" + folder + "/" + chapter);
+			}
+		});
+		Box buttonBox = new Box(BoxLayout.X_AXIS);
+		buttonBox.add(newTextButton);
+		buttonBox.add(importEpubButton);
+		add(buttonBox);
 
 		genreList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		folderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);

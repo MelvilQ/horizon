@@ -28,5 +28,6 @@ Dateien, die auf dem PC neuer sind als auf dem MB, werden auf dem MB überschrieb
 
 * für später und nur vielleicht:
 - LingQ Import (z.B. mit Selenium)
+- Wikipedia Import
 - Multi-Wort-Ausdrücke
 - Wortlisten für Texte zum angucken / lernen

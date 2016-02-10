@@ -263,7 +263,7 @@ public class HorizonReader extends JScrollPane {
 	private void makeNewLine() {
 		box.add(Box.createRigidArea(new Dimension(0, 10)));
 		panel = new JPanel();
-		panel.setBackground(Color.WHITE);
+		panel.setOpaque(false);
 		panel.setLayout(new WrapLayout(FlowLayout.LEADING, 0, 2));
 		panel.setMaximumSize(new Dimension(580, 100000));
 		panel.setAlignmentX(0.35f);

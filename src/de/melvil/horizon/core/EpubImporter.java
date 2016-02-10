@@ -6,15 +6,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.safety.Whitelist;
-
 import nl.siegmann.epublib.domain.Book;
 import nl.siegmann.epublib.domain.Resource;
 import nl.siegmann.epublib.domain.Spine;
 import nl.siegmann.epublib.domain.SpineReference;
 import nl.siegmann.epublib.epub.EpubReader;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
+import org.unbescape.html.HtmlEscape;
 
 public class EpubImporter {
 
@@ -30,13 +31,21 @@ public class EpubImporter {
 				continue;
 			String html = new String(res.getData(), res.getInputEncoding());
 			Document document = Jsoup.parse(html);
+			document.select("title").remove();
 			document.outputSettings(new Document.OutputSettings()
 					.prettyPrint(false));
 			document.select("br").append("\\n");
 			document.select("p").prepend("\\n\\n");
+			document.select("h1").append("\\n\\n");
+			document.select("h2").append("\\n\\n");
+			document.select("h3").append("\\n\\n");
+			document.select("h4").append("\\n\\n");
+			document.select("h5").append("\\n\\n");
+			document.select("h6").append("\\n\\n");
 			String s = document.html().replaceAll("\\\\n", "\n");
 			String text = Jsoup.clean(s, "", Whitelist.none(),
 					new Document.OutputSettings().prettyPrint(false));
+			text = HtmlEscape.unescapeHtml(text);
 			chapterTexts.add(text);
 		}
 		return chapterTexts;
