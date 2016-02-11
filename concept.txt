@@ -3,6 +3,9 @@
   und der Text nicht der erste angezeigte Text seit Programmstart ist...
 
 * TODO:
+- Default EPUB-Ordner in Language Preferences für jede Sprache, damit man nicht dauernd so viel klicken muss
+- Beim Text importieren muss der Dateiname validiert werden
+- Beim EPUB importieren müssen die Felder validiert werden
 - Text Selector: Mit Kontextmenü neuen Ordner/Text erstellen, Ordner/Text löschen
 - Rechtschreibfehler, die einem erst beim Lesen auffallen, einfach korrigieren können (Kontextmenü von WordLabel!)
 - Usability Check machen aus Sicht des unbeteiligten Dritten :D
@@ -10,7 +13,6 @@
 - Starter-ZIP erstellen (Ant Build?)
 - ReadMe file schreiben und Projekt auf GitHub stellen und dann damit angeben :D
 - About Fenster machen
-- EPUB Import
 - Allgemeine Settings Window: z.B. den Data-Folder frei wählbar machen, dann kann man ihn in die Dropbox verschieben
 
 - App für Android, mit der man Texte lesen und Audios hören kann 

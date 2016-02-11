@@ -199,6 +199,7 @@ public class ImportEpubDialog extends JDialog {
 						int i = chapterTable.getSelectionModel()
 								.getMinSelectionIndex();
 						chapterTextEdit.setText(chapterModel.getChapterText(i));
+						chapterTextEdit.setCaretPosition(0);
 						chapterTextScroll.getVerticalScrollBar().setValue(0);
 					}
 				});

@@ -128,6 +128,7 @@ public class MainWindow extends JFrame {
 		selector.setLanguage(lang);
 		wordManager = new WordManager(lang);
 		reader.loadText("");
+		remainingCounter.setText("");
 		editor.display("");
 		settings.setSetting("current_lang", lang);
 		adjustScores();
