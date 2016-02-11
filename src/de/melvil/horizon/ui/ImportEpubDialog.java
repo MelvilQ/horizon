@@ -3,6 +3,7 @@ package de.melvil.horizon.ui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -138,7 +138,7 @@ public class ImportEpubDialog extends JDialog {
 	private JButton cancelButton = new JButton("Cancel");
 	private JButton okButton = new JButton("Import");
 
-	public ImportEpubDialog(JFrame parent, String genreDefault) {
+	public ImportEpubDialog(MainWindow parent, String genreDefault) {
 		super(parent, "Import EPUB", ModalityType.APPLICATION_MODAL);
 		getContentPane().setLayout(
 				new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -153,6 +153,10 @@ public class ImportEpubDialog extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
+				String epubDir = parent.getWordManager().getSetting("epub_dir");
+				File epubDirFile = new File(epubDir);
+				if(!epubDir.equals("") && epubDirFile.exists())
+					chooser.setCurrentDirectory(epubDirFile);
 				chooser.setFileFilter(new FileNameExtensionFilter("EPUB files",
 						"epub"));
 				int success = chooser.showOpenDialog(parent);
