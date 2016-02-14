@@ -86,10 +86,21 @@ public class ImportEpubDialog extends JDialog {
 
 		@Override
 		public void setValueAt(Object value, int row, int column) {
-			if (column == 0)
+			if (column == 0) {
 				chapterSelected.set(row, (Boolean) value);
-			else
-				chapterTitles.set(row, (String) value);
+			} else {
+				String v = (String) value;
+				chapterTitles.set(row, v);
+				// auto-renaming of numbered chapters
+				if (v.equals("01")) {
+					for (int r = row + 1; r < chapterTitles.size(); ++r) {
+						String vn = String.format("%02d", r - row + 1);
+						setValueAt(vn, r, 1);
+					}
+					revalidate();
+					repaint();
+				}
+			}
 		}
 
 		@Override
@@ -155,7 +166,7 @@ public class ImportEpubDialog extends JDialog {
 				JFileChooser chooser = new JFileChooser();
 				String epubDir = parent.getWordManager().getSetting("epub_dir");
 				File epubDirFile = new File(epubDir);
-				if(!epubDir.equals("") && epubDirFile.exists())
+				if (!epubDir.equals("") && epubDirFile.exists())
 					chooser.setCurrentDirectory(epubDirFile);
 				chooser.setFileFilter(new FileNameExtensionFilter("EPUB files",
 						"epub"));

@@ -3,11 +3,12 @@
   und der Text nicht der erste angezeigte Text seit Programmstart ist...
 
 * TODO:
-- Default EPUB-Ordner in Language Preferences für jede Sprache, damit man nicht dauernd so viel klicken muss
+- Offline-Wörterbücher implementieren (am besten alle Formate, die GoldenDict unterstützt)
 - Beim Text importieren muss der Dateiname validiert werden
 - Beim EPUB importieren müssen die Felder validiert werden
 - Text Selector: Mit Kontextmenü neuen Ordner/Text erstellen, Ordner/Text löschen
 - Rechtschreibfehler, die einem erst beim Lesen auffallen, einfach korrigieren können (Kontextmenü von WordLabel!)
+- Größe des Lesefensters und des Wörterbuchbrowsers soll verstellbar sein (und persistent)
 - Usability Check machen aus Sicht des unbeteiligten Dritten :D
 - "Penetration-Tests" machen (mit künstlichem Data-Ordner natürlich!!!)
 - Starter-ZIP erstellen (Ant Build?)
@@ -27,6 +28,7 @@ Preferences auch!
 Dateien/Ordner, die nur auf dem MB existieren, werden gelöscht.
 Dateien, die auf dem PC neuer sind als auf dem MB, werden auf dem MB überschrieben.
 
+- Code, der sowohl für Android als auch für Desktop relevant ist, irgendwie auslagern...
 
 * für später und nur vielleicht:
 - LingQ Import (z.B. mit Selenium)
