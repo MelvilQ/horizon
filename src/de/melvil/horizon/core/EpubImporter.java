@@ -30,6 +30,7 @@ public class EpubImporter {
 			if (!mediaType.contains("html"))
 				continue;
 			String html = new String(res.getData(), res.getInputEncoding());
+			html = html.replace("\n", " ");
 			Document document = Jsoup.parse(html);
 			document.select("title").remove();
 			document.outputSettings(new Document.OutputSettings()
