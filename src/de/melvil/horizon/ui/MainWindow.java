@@ -44,6 +44,8 @@ public class MainWindow extends JFrame {
 
 	public static Font textFont;
 	public static Font editFont;
+	
+	private File currentlyOpenedFile;
 
 	public MainWindow() {
 		setTitle("Horizon");
@@ -136,6 +138,7 @@ public class MainWindow extends JFrame {
 
 	public void notifyLoadText(File textFile, String path) {
 		try {
+			currentlyOpenedFile = textFile;
 			reader.loadText(FileUtils.readFileToString(textFile,
 					Charset.forName("UTF-8")).replace("\uFEFF", ""));
 			adjustRemainingWordsCounter();
@@ -182,6 +185,10 @@ public class MainWindow extends JFrame {
 
 	public HorizonSettings getSettings() {
 		return settings;
+	}
+	
+	public File getCurrentlyOpenedFile(){
+		return currentlyOpenedFile;
 	}
 
 	public static void main(String[] args) {

@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -28,6 +31,7 @@ import javax.swing.ScrollPaneConstants;
 
 import org.apache.commons.collections4.MultiValuedMap;
 import org.apache.commons.collections4.multimap.ArrayListValuedHashMap;
+import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
@@ -166,6 +170,7 @@ public class HorizonReader extends JScrollPane {
 
 		JMenuItem wellknownItem = new JMenuItem("Well-known");
 		JMenuItem ignoreItem = new JMenuItem("Ignore");
+		JMenuItem correctItem = new JMenuItem("Correct spelling");
 		wellknownItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -180,12 +185,27 @@ public class HorizonReader extends JScrollPane {
 				parent.notifyStrengthChange(clickedWord.getWord(), 4);
 			}
 		});
+		correctItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				WordLabel clickedWord = (WordLabel) popupMenu.getInvoker();
+				String wrong = clickedWord.getText();
+				String correct = (String) JOptionPane.showInputDialog(parent,
+						"Please type in the correct spelling for \"" + wrong
+								+ "\":", "Correct spelling...",
+						JOptionPane.PLAIN_MESSAGE, null, null, wrong);
+				if (correct != null && correct.length() != 0)
+					applySpellingCorrection(wrong, correct);
+			}
+		});
 		popupMenu.add(wellknownItem);
 		popupMenu.add(ignoreItem);
+		popupMenu.addSeparator();
+		popupMenu.add(correctItem);
 	}
 
 	public void loadText(String text) {
-		
+
 		getVerticalScrollBar().setValue(0);
 
 		selectedLabel = null;
@@ -341,17 +361,39 @@ public class HorizonReader extends JScrollPane {
 	public int getNumberOfRemainingWords() {
 		return remainingUnknownWords.size();
 	}
-	
-	public void applyMeaning(String word){
+
+	public void applyMeaning(String word) {
 		int strength = parent.getWordManager().getStrength(word);
-		String meaning = String.join(", ", parent.getWordManager().getMeanings(word));
+		String meaning = String.join(", ",
+				parent.getWordManager().getMeanings(word));
 		Collection<WordLabel> labels = labelsByWord.get(word);
 		for (WordLabel label : labels) {
-			if (strength >= 0 && strength < 3 && !meaning.equals("")){
+			if (strength >= 0 && strength < 3 && !meaning.equals("")) {
 				label.setToolTipText(meaning);
 			}
 		}
 		revalidate();
 		repaint();
+	}
+
+	public void applySpellingCorrection(String wrong, String correct) {
+		// correct spelling in labels
+		for (WordLabel l : labelsByWord.get(wrong.toLowerCase())){
+			l.setText(correct);
+			int strength = parent.getWordManager().getStrength(l.getWord());
+			l.setStrength(strength);
+			labelsByWord.put(l.getWord(), l);
+		}
+		// correct spelling in file
+		File file = parent.getCurrentlyOpenedFile();
+		try {
+			String text = FileUtils.readFileToString(file,
+					Charset.forName("UTF-8"));
+			text = text.replace("<span>" + wrong + "</span>", "<span>"
+					+ correct + "</span>");
+			FileUtils.writeStringToFile(file, text, Charset.forName("UTF-8"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

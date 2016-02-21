@@ -50,5 +50,11 @@ public class WordLabel extends JLabel {
 	public int getStrength() {
 		return strength;
 	}
+	
+	@Override
+	public void setText(String text){
+		super.setText(text);
+		word = text.toLowerCase();
+	}
 
 }

@@ -7,7 +7,6 @@
 - Beim Text importieren muss der Dateiname validiert werden
 - Beim EPUB importieren müssen die Felder validiert werden
 - Text Selector: Mit Kontextmenü neuen Ordner/Text erstellen, Ordner/Text löschen
-- Rechtschreibfehler, die einem erst beim Lesen auffallen, einfach korrigieren können (Kontextmenü von WordLabel!)
 - Größe des Lesefensters und des Wörterbuchbrowsers soll verstellbar sein (und persistent)
 - Usability Check machen aus Sicht des unbeteiligten Dritten :D
 - "Penetration-Tests" machen (mit künstlichem Data-Ordner natürlich!!!)
