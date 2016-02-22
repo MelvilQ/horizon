@@ -87,7 +87,20 @@ public class ImportEpubDialog extends JDialog {
 		@Override
 		public void setValueAt(Object value, int row, int column) {
 			if (column == 0) {
-				chapterSelected.set(row, (Boolean) value);
+				Boolean v = (Boolean) value;
+				chapterSelected.set(row, v);
+				// auto-renaming of following chapters when we leave out a chapter
+				if (v == false && chapterTitles.get(row).matches("[0-9]{2}")) {
+					int no = Integer.parseInt(chapterTitles.get(row));
+					for (int r = row + 1; r < chapterTitles.size(); ++r) {
+						if (!chapterSelected.get(r))
+							continue;
+						setValueAt(String.format("%02d", no), r, 1);
+						no++;
+					}
+					revalidate();
+					repaint();
+				}
 			} else {
 				String v = (String) value;
 				chapterTitles.set(row, v);
