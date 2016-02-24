@@ -378,12 +378,14 @@ public class HorizonReader extends JScrollPane {
 
 	public void applySpellingCorrection(String wrong, String correct) {
 		// correct spelling in labels
-		for (WordLabel l : labelsByWord.get(wrong.toLowerCase())){
+		for (WordLabel l : labelsByWord.get(wrong.toLowerCase())) {
 			l.setText(correct);
 			int strength = parent.getWordManager().getStrength(l.getWord());
 			l.setStrength(strength);
 			labelsByWord.put(l.getWord(), l);
 		}
+		labelsByWord.remove(wrong.toLowerCase());
+		remainingUnknownWords.remove(wrong.toLowerCase());
 		// correct spelling in file
 		File file = parent.getCurrentlyOpenedFile();
 		try {
