@@ -79,8 +79,11 @@ public class TextSelector extends Box {
 
 		genrePane.setMinimumSize(new Dimension(200, 100));
 		genrePane.setMaximumSize(new Dimension(200, 100));
+		genrePane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		folderPane.setPreferredSize(new Dimension(200, 250));
+		folderPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		chapterPane.setPreferredSize(new Dimension(200, 500));
+		chapterPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 		add(genrePane);
 		add(folderPane);
 		add(chapterPane);
