@@ -107,7 +107,7 @@ public class WordDetailEditor extends Box {
 		meaningsAddButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String newMeaning = meaningsInput.getText();
+				String newMeaning = meaningsInput.getText().trim();
 				if (!newMeaning.equals("")) {
 					parent.getWordManager().addMeaning(currentWord, newMeaning);
 					if (strength == -1)
