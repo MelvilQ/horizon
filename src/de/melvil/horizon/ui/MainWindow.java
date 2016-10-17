@@ -53,6 +53,7 @@ public class MainWindow extends JFrame {
 		getContentPane().setLayout(
 				new BoxLayout(getContentPane(), BoxLayout.X_AXIS));
 
+		// create the menu
 		JMenu menu = new JMenu("Menu");
 		JMenuItem wordManagerItem = new JMenuItem("Manage Words");
 		menu.add(wordManagerItem);
@@ -100,6 +101,7 @@ public class MainWindow extends JFrame {
 		menuBar.add(totalScore);
 		setJMenuBar(menuBar);
 
+		// arrange the elements of the window
 		selector.setMinimumSize(new Dimension(200, 600));
 		selector.setMaximumSize(new Dimension(200, 1000));
 		reader.setMinimumSize(new Dimension(620, 600));
@@ -113,9 +115,11 @@ public class MainWindow extends JFrame {
 		rightBox.add(dictionary);
 		getContentPane().add(rightBox);
 
+		// loading the fonts
 		textFont = new Font("Georgia", Font.PLAIN, 17);
 		editFont = new Font("Georgia", Font.PLAIN, 12);
 
+		// loading the current language or starting with default
 		String lang = settings.getSetting("current_lang");
 		if (lang == null){
 			lang = "default";
@@ -124,6 +128,7 @@ public class MainWindow extends JFrame {
 		notifyLanguageChange(lang);
 		selector.selectLastText();
 
+		// maximize window
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
