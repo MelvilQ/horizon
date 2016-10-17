@@ -267,7 +267,12 @@ public class TextSelector extends Box {
 
 	public void setLanguage(String lang) {
 		this.lang = lang;
+		// to add "default" to the selector
+		if(languageSelector.getItemCount() == 0)
+			languageSelector.addItem(lang);
+		// select the language in the dropdown
 		languageSelector.setSelectedItem(lang);
+		// display folders etc.
 		populateModelWithDirContent(genreModel, dataPath + "/" + lang, true);
 	}
 

@@ -117,8 +117,10 @@ public class MainWindow extends JFrame {
 		editFont = new Font("Georgia", Font.PLAIN, 12);
 
 		String lang = settings.getSetting("current_lang");
-		if (lang == null)
-			lang = "en";
+		if (lang == null){
+			lang = "default";
+			new File("data/default/default/default").mkdirs();
+		}
 		notifyLanguageChange(lang);
 		selector.selectLastText();
 
