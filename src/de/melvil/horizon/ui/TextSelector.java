@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.Box;
@@ -197,10 +198,12 @@ public class TextSelector extends Box {
 			String dirName, boolean dirMode) {
 		model.clear();
 		File dir = new File(dirName);
-		for (File f : dir.listFiles()) {
+		File[] fileList = dir.listFiles();
+		Arrays.sort(fileList);
+		for (File f : fileList) {
 			if (dirMode && f.isDirectory())
 				model.addElement(f.getName());
-			else if (!dirMode && f.getName().endsWith(".txt"))
+			else if (!dirMode && !f.isDirectory() && f.getName().endsWith(".txt"))
 				model.addElement(f.getName().replace(".txt", ""));
 		}
 	}
