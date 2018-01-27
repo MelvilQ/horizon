@@ -89,7 +89,8 @@ public class ImportEpubDialog extends JDialog {
 			if (column == 0) {
 				Boolean v = (Boolean) value;
 				chapterSelected.set(row, v);
-				// auto-renaming of following chapters when we leave out a chapter
+				// auto-renaming of following chapters when we leave out a
+				// chapter
 				if (v == false && chapterTitles.get(row).matches("[0-9]{2}")) {
 					int no = Integer.parseInt(chapterTitles.get(row));
 					for (int r = row + 1; r < chapterTitles.size(); ++r) {
@@ -164,8 +165,7 @@ public class ImportEpubDialog extends JDialog {
 
 	public ImportEpubDialog(MainWindow parent, String genreDefault) {
 		super(parent, "Import EPUB", ModalityType.APPLICATION_MODAL);
-		getContentPane().setLayout(
-				new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		setSize(1000, 600);
 		setLocation(200, 100);
 
@@ -178,28 +178,26 @@ public class ImportEpubDialog extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
 				String epubDir = parent.getWordManager().getSetting("epub_dir");
-				File epubDirFile = new File(epubDir);
-				if (!epubDir.equals("") && epubDirFile.exists())
-					chooser.setCurrentDirectory(epubDirFile);
-				chooser.setFileFilter(new FileNameExtensionFilter("EPUB files",
-						"epub"));
+				if (epubDir != null) {
+					File epubDirFile = new File(epubDir);
+					if (!epubDir.equals("") && epubDirFile.exists())
+						chooser.setCurrentDirectory(epubDirFile);
+					chooser.setFileFilter(new FileNameExtensionFilter("EPUB files", "epub"));
+				}
 				int success = chooser.showOpenDialog(parent);
 				if (success != JFileChooser.APPROVE_OPTION)
 					return;
 
 				try {
-					List<String> chapterTexts = EpubImporter.importEpub(chooser
-							.getSelectedFile());
+					List<String> chapterTexts = EpubImporter.importEpub(chooser.getSelectedFile());
 					if (chapterTexts == null || chapterTexts.size() == 0)
 						throw new IOException();
 					chapterModel = new ChapterTableModel(chapterTexts);
 					chapterTable.setModel(chapterModel);
-					fileChoosingLabel.setText(chooser.getSelectedFile()
-							.getName());
+					fileChoosingLabel.setText(chooser.getSelectedFile().getName());
 				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(parent,
-							"Could not read this EPUB file.",
-							"Error reading EPUB file", JOptionPane.ERROR);
+					JOptionPane.showMessageDialog(parent, "Could not read this EPUB file.", "Error reading EPUB file",
+							JOptionPane.ERROR);
 				}
 			}
 		});
@@ -218,62 +216,54 @@ public class ImportEpubDialog extends JDialog {
 
 		chapterTable.setSize(100, 400);
 		chapterTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		chapterTable.getSelectionModel().addListSelectionListener(
-				new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						if (e.getValueIsAdjusting())
-							return;
-						int i = chapterTable.getSelectionModel()
-								.getMinSelectionIndex();
-						chapterTextEdit.setText(chapterModel.getChapterText(i));
-						chapterTextEdit.setCaretPosition(0);
-						chapterTextScroll.getVerticalScrollBar().setValue(0);
-					}
-				});
+		chapterTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting())
+					return;
+				int i = chapterTable.getSelectionModel().getMinSelectionIndex();
+				chapterTextEdit.setText(chapterModel.getChapterText(i));
+				chapterTextEdit.setCaretPosition(0);
+				chapterTextScroll.getVerticalScrollBar().setValue(0);
+			}
+		});
 
 		chapterTextEdit.setMinimumSize(new Dimension(300, 0));
-		chapterTextEdit.getDocument().addDocumentListener(
-				new DocumentListener() {
-					private void updateText(Document d) {
-						try {
-							int i = chapterTable.getSelectionModel()
-									.getMinSelectionIndex();
-							String text = d.getText(0, d.getLength());
-							chapterModel.setCapterText(i, text);
-						} catch (BadLocationException ex) {
-							ex.printStackTrace();
-						}
-					}
+		chapterTextEdit.getDocument().addDocumentListener(new DocumentListener() {
+			private void updateText(Document d) {
+				try {
+					int i = chapterTable.getSelectionModel().getMinSelectionIndex();
+					String text = d.getText(0, d.getLength());
+					chapterModel.setCapterText(i, text);
+				} catch (BadLocationException ex) {
+					ex.printStackTrace();
+				}
+			}
 
-					@Override
-					public void insertUpdate(DocumentEvent e) {
-						updateText(e.getDocument());
-					}
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				updateText(e.getDocument());
+			}
 
-					@Override
-					public void removeUpdate(DocumentEvent e) {
-						updateText(e.getDocument());
-					}
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				updateText(e.getDocument());
+			}
 
-					@Override
-					public void changedUpdate(DocumentEvent e) {
-						updateText(e.getDocument());
-					}
-				});
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				updateText(e.getDocument());
+			}
+		});
 		Box editBox = new Box(BoxLayout.X_AXIS);
 		chapterTableScroll = new JScrollPane(chapterTable);
 		chapterTextScroll = new JScrollPane(chapterTextEdit);
-		chapterTableScroll
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		chapterTableScroll
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		chapterTableScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		chapterTableScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		chapterTableScroll.setMinimumSize(new Dimension(100, 0));
 		chapterTableScroll.setMaximumSize(new Dimension(100, 10000));
-		chapterTextScroll
-				.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		chapterTextScroll
-				.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		chapterTextScroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		chapterTextScroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		editBox.add(chapterTableScroll);
 		editBox.add(chapterTextScroll);
 		getContentPane().add(editBox);

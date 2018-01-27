@@ -58,13 +58,11 @@ public class MainWindow extends JFrame {
 
 		// create the menu
 		JMenu menu = new JMenu("Menu");
-		JMenuItem wordManagerItem = new JMenuItem("Manage Words");
-		menu.add(wordManagerItem);
 		JMenuItem statisticsItem = new JMenuItem("View Statistics");
 		statisticsItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new StatisticsWindow();
+				new StatisticsDialog(MainWindow.this);
 			}
 		});
 		menu.add(statisticsItem);
@@ -73,16 +71,24 @@ public class MainWindow extends JFrame {
 		languagePreferencesItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new LanguagePreferencesWindow(wordManager);
+				new LanguagePreferencesDialog(MainWindow.this, wordManager);
 			}
 		});
 		menu.add(languagePreferencesItem);
+		JMenuItem libraryExportItem = new JMenuItem("Library Export");
+		libraryExportItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new LibraryExportDialog(MainWindow.this, settings, wordManager);
+			}
+		});
+		menu.add(libraryExportItem);
 		menu.addSeparator();
 		JMenuItem aboutItem = new JMenuItem("About Horizon");
 		aboutItem.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new AboutHorizonWindow();
+				new AboutHorizonDialog(MainWindow.this);
 			}
 		});
 		menu.add(aboutItem);

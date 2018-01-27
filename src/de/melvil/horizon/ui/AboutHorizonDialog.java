@@ -10,17 +10,16 @@ import java.net.URI;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 
 @SuppressWarnings("serial")
-public class AboutHorizonWindow extends JFrame {
+public class AboutHorizonDialog extends JDialog {
 
-	public AboutHorizonWindow() {
-		super();
+	public AboutHorizonDialog(MainWindow parent) {
+		super(parent, "About Horizon", ModalityType.APPLICATION_MODAL);
 		setSize(400, 120);
 		setLocation(300, 200);
-		setTitle("About Horizon");
 
 		getContentPane().setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
 		getContentPane().add(Box.createRigidArea(new Dimension(0, 10)));

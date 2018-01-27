@@ -3,19 +3,19 @@ package de.melvil.horizon.ui;
 import java.io.File;
 import java.io.FilenameFilter;
 
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import de.melvil.horizon.core.WordManager;
 
 @SuppressWarnings("serial")
-public class StatisticsWindow extends JFrame {
+public class StatisticsDialog extends JDialog {
 
-	public StatisticsWindow() {
+	public StatisticsDialog(MainWindow parent) {
+		super(parent, "Statistics", ModalityType.APPLICATION_MODAL);
 		setSize(600, 400);
 		setLocation(200, 100);
-		setTitle("Statistics");
 
 		File dataFolder = new File("data");
 		File[] langFolders = dataFolder.listFiles(new FilenameFilter() {
@@ -37,7 +37,7 @@ public class StatisticsWindow extends JFrame {
 		DefaultTableModel model = (DefaultTableModel) table.getModel();
 		getContentPane().add(table);
 
-		model.setValueAt("Number of words", 0, 0);
+		model.setValueAt("Language", 0, 0);
 		model.setValueAt("Total", 1, 0);
 		model.setValueAt("Well-known", 2, 0);
 		model.setValueAt("Good", 3, 0);
