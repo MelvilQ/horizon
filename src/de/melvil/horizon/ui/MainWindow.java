@@ -2,11 +2,14 @@ package de.melvil.horizon.ui;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -116,8 +119,9 @@ public class MainWindow extends JFrame {
 		getContentPane().add(rightBox);
 
 		// loading the fonts
-		textFont = new Font("Georgia", Font.PLAIN, 17);
-		editFont = new Font("Georgia", Font.PLAIN, 12);
+		String fontName = selectTextFont();
+		textFont = new Font(fontName, Font.PLAIN, 17);
+		editFont = new Font(fontName, Font.PLAIN, 12);
 
 		// loading the current language or starting with default
 		String lang = settings.getSetting("current_lang");
@@ -131,6 +135,23 @@ public class MainWindow extends JFrame {
 		// maximize window
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	private String selectTextFont() {
+		List<String> availableFonts = Arrays.asList(GraphicsEnvironment.getLocalGraphicsEnvironment()
+				.getAvailableFontFamilyNames());
+		if(availableFonts.contains("Georgia"))
+			return "Georgia";
+		if(availableFonts.contains("Noto Serif")){
+			return "Noto Serif";
+		}
+		if(availableFonts.contains("Century Schoolbook L")){
+			return "Century Schoolbook L";
+		}
+		if(availableFonts.contains("Liberation Serif")){
+			return "Liberation Serif";
+		}
+		return "Times New Roman";
 	}
 
 	public void notifyLanguageChange(String lang) {

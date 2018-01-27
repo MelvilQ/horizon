@@ -251,9 +251,19 @@ public class HorizonReader extends JScrollPane {
 					WordLabel clickedWord = (WordLabel) e.getComponent();
 					selectWord(clickedWord);
 				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// show context menu; works on Linux and (presumably) Mac OS
+					WordLabel clickedWord = (WordLabel) e.getComponent();
+					if (e.isPopupTrigger() && clickedWord.getStrength() == -1) {
+						popupMenu.show(clickedWord, e.getX(), e.getY());
+					}
+				}
 
 				@Override
 				public void mouseReleased(MouseEvent e) {
+					// show context menu; works on Windows
 					WordLabel clickedWord = (WordLabel) e.getComponent();
 					if (e.isPopupTrigger() && clickedWord.getStrength() == -1) {
 						popupMenu.show(clickedWord, e.getX(), e.getY());
