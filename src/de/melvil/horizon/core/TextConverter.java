@@ -17,6 +17,7 @@ public class TextConverter {
 		document.head().append("<link href=\"reader.css\" type=\"text/css\" rel=\"stylesheet\">");
 		document.head().append("<script src=\"jquery.min.js\" type=\"text/javascript\"><script>");
 		document.head().append("<script src=\"reader.js\" type=\"text/javascript\"><script>");
+		
 		List<Node> nodes = document.getElementById("text").childNodes();
 		for (Node node : nodes) {
 			if (node instanceof Element) {
@@ -31,6 +32,13 @@ public class TextConverter {
 				}
 			}
 		}
+		
+		String dictUrl = wordManager.getSetting("dict_url");
+		if (dictUrl == null || dictUrl.trim().equals("")) {
+			dictUrl = "https://en.m.wiktionary.org/wiki/$$$";
+		}
+		document.body().append("<div id=\"dict\" data-url=\"" + dictUrl + "\"></div>");
+		
 		document.outputSettings().indentAmount(0).prettyPrint(false);
 		return document.html();
 	}

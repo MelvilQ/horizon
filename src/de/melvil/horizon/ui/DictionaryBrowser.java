@@ -36,11 +36,11 @@ public class DictionaryBrowser extends JFXPanel {
 		Platform.runLater(new Runnable() {
 			@Override
 			public void run() {
-				String dictURL = parent.getWordManager().getSetting("dict_url");
-				if (dictURL == null) {
-					dictURL = "https://en.m.wiktionary.org/wiki/$$$";
+				String dictUrl = parent.getWordManager().getSetting("dict_url");
+				if (dictUrl == null || dictUrl.trim().equals("")) {
+					dictUrl = "https://en.m.wiktionary.org/wiki/$$$";
 				}
-				String url = dictURL.replace("$$$", word);
+				String url = dictUrl.replace("$$$", word);
 				webEngine.load(url);
 			}
 		});
